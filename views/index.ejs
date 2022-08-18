@@ -3,40 +3,26 @@
 <% include partials/head.ejs %>
 
     <body>
-        <div style="margin-top:5%;display: block;">
-            <!-- space acting nav -->
-        </div>
-        <div class="container">
-            <div class="section_view_new">
-                <form id="form">
-                    <div class="row">
-                        <div class="columns eight">
-                            <div class="form-control">
-                                <div class="row">
-                                    <div class="columns three">
-                                        <label for="cspname">Cities</label>
-                               
-                                    </div>
-                                    <div class="columns seven">
-                                        <input type="text" id="cspname" />
-                                    </div>
-                                </div>
-                            </div>
+        <div class="container m-5 p-2 rounded mx-auto bg-light shadow">
+            <div class="row m-1 p-3">
+                <div class="col col-11 mx-auto">
+                    <div
+                        class="row bg-white rounded shadow-sm p-2 cities-wrapper align-items-center justify-content-center">
+                        <div class="col">
+                            <input class="form-control form-control-lg border-0 cities-input bg-transparent rounded"
+                                type="text" placeholder="Cities">
                         </div>
-                        <div class="columns two">
-                            <button type="submit" id="btn">Submit</button>
+                        <div class="col-auto px-0 mx-0 mr-2">
+                            <button type="button" class="btn get btn-primary">Look Up!</button>
                         </div>
                     </div>
-                    
-                    
-                </form>
-
+                </div>
+            </div>
+            <div class="p-2 mx-4 border-black-25 border-bottom"></div>
+            <div class="card-columns  mx-1 my-3 px-5 pb-3 w-80">
+                
             </div>
         </div>
-
     </body>
-    <script>
-        
-    </script>
 
 </html>

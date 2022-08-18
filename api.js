@@ -18,17 +18,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "*");
     next();
 })
 /** API ROUTES */
-app.get('/api/cities', async (req, res) => {
+app.post('/api/cities', async (req, res) => {
     let cities = req.body.cities
     let requests = []
     cities.forEach((city) => {
         requests.push(ambeedata.get(`/latest/by-city?city=${city}`))
     });
-    let data = await axios.all(requests)
+    let data = []
+    try {
+        data = await axios.all(requests)
+    } catch (error) {
+        res.sendStatus(400);
+    }
     let cords = []
     data.forEach((req) => {
         if (req.data.message === 'success') {
@@ -48,16 +53,16 @@ app.get('/api/cities', async (req, res) => {
     data.forEach((req) => {
         headers = req.request._header;
         data = req.data;
-        city = headers.slice(headers.indexOf('city:')+5 , headers.indexOf('placeName')).trim();
-        place = headers.slice(headers.indexOf('placeName:')+10 , headers.indexOf('division')).trim();
-        division = headers.slice(headers.indexOf('division:')+9 , headers.indexOf('User-Agent')).trim();
-        if(data.message === 'success'){ 
-            let c = parseInt((data.data.temperature - 32)*5/9)
-            weather_data.push({temp:c,city:city,placeName: place,division:division})
-            
-        } 
+        city = headers.slice(headers.indexOf('city:') + 5, headers.indexOf('placeName')).trim();
+        place = headers.slice(headers.indexOf('placeName:') + 10, headers.indexOf('division')).trim();
+        division = headers.slice(headers.indexOf('division:') + 9, headers.indexOf('User-Agent')).trim();
+        if (data.message === 'success') {
+            let c = parseInt((data.data.temperature - 32) * 5 / 9)
+            weather_data.push({ temp: c, city: city, placeName: place, division: division })
+
+        }
     })
-    res.json({weather:weather_data})
+    res.json({ weather: weather_data })
 })
 /** SET VIEWS */
 app.set('view engine', 'ejs');
